@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+//Function Overloading
+int add(int a, int b)
+{
+return a + b;
+}
+//Complex Number Class
+class ComplexNumber
+{
+private:
+double real, imag;
+
+public:
+ComplexNumber(double r, double i)
+{
+real = r;
+imag = i;
+}
+//Operator Overloading
+ComplexNumber operator+(const ComplexNumber & c) const
+
+
+{
+return ComplexNumber(real + c.real, imag + c.imag);
+}
+
+void display( ) const
+{
+cout  <<  real;
+
+if (imag  >=  0)
+cout << " + " << imag <<  "i";
+else
+cout  << " - " << -imag << "i";
+}
+};
+
+int main ( )
+{
+cout << " Student Name : TANAYA SANDIP CHAUDHARI " << endl;
+cout << " Student URN No. : E26B00S3149 " << endl;
+
+//Function Overloading
+cout << "--- Function Overloading---" << endl; 
+cout << " Addition of integers (10 + 20): " << add(10, 20) << endl;
+cout << " Addition of doubles (5.5 + 2.3) : " << add (5.5,  2.3) << endl;
+
+//Operator Overloading
+cout << "\n---Operator Overloading ---" << endl;
+
+ComplexNumber c1(3, 4);
+ComplexNumber c2(2, 5);
+
+cout << " First complex number : " ;
+c1.display( );
+
+cout<< endl;
+
+cout << " Second Complex number : " ;
+c2.display( );
+
+cout << endl ;
+ComplexNumber c3 = c1 + c2;
+
+cout << " Addition of complex numbers : ";
+c3.display( );
+
+cout << endl;
+return 0;
+}
