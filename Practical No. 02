@@ -1,0 +1,107 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+class BankAccount
+{
+private :
+// Private data members: protect account information.
+string accountNumber;
+double balance;
+ 
+
+public : 
+// Public constructor to initialize account details.
+BankAccount(const string & number, double openingBalance)
+{
+accountNumber = number;
+
+if  (openingBalance  >= 0)
+{
+balance = openingBalance;
+}   else  {
+cout << " Invalid opening balance. Balance set to 0.00.\n";
+balance = 0.0;
+}
+}
+
+//Public function to deposit money.
+void deposit (double amount)
+{
+
+if (amount  > 0)
+{
+
+
+
+
+balance  += amount;
+cout << "Deposit successful:  Rs.  "  << amount << '\n';
+}  else  {
+cout << "Invalid deposit amount.\n";
+   }
+}
+
+// Public function to withdraw money.
+void withdraw (double amount)
+{
+if (amount  <= 0)
+{
+cout << " Invalid withdraw amount.\n";
+}
+else if (amount  >  balance)
+{
+cout << "Insufficient balance. Withdraw failed.\n";
+}   else  {
+
+balance  -= amount;
+cout << "Withdraw successful : Rs. " << amount << '\n';
+    }
+}
+
+// Public function to display account details.
+void displayDetails( ) const
+{
+cout << "Account Number : " << accountNumber <<  '\n';
+cout << "Current Balance : Rs. "  << balance  << '\n';
+     }
+};
+
+int main( )
+{
+cout << "Student Name : TANAYA SANDIP CHAUDHARI."  << endl;
+cout << "Student URN No. : E26B00S3149 " << endl;
+
+cout << fixed  << setprecision (2) ;
+
+// Creating the first objects.
+BankAccount account1("ADYPU101" , 5000.00);
+
+cout  << "  ----- Account1 -----\n";
+account1.displayDetails( );
+
+account1.deposit (1500.00);
+account1.withdraw (2000.00);
+
+cout << "After transactions : \n";
+account1.displayDetails( );
+
+cout  << "\n  ----- Account2 -----\n";
+
+//Creating the second object.
+
+
+BankAccount account2 ( "ADYPU102",3000.00);
+
+account2.displayDetails( );
+
+account2.deposit(1000.00);
+account2.withdraw(5000.00);
+
+cout << "After transactions : \n";
+account2.displayDetails( );
+
+return 0;
+
+}
