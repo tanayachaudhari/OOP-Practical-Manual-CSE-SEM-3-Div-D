@@ -1,0 +1,60 @@
+#include <iostream>
+using namespace std;
+
+//Base class
+class Shape {
+public :
+virtual void draw( ) = 0;
+virtual ~Shape ( ) { }
+};
+
+// Derived class
+class Circle : public Shape {
+public :
+void draw( ) override {
+cout << " Circle object created. " << endl;
+}
+};
+
+//Derived class
+class Rectangle : public Shape {
+public : void draw ( ) override {
+cout << "Rectangle object created. " << endl;
+}
+};
+
+//Factory function
+Shape* createShape(int type) {
+if (type == 1)
+return new Circle( );
+
+else if (type == 2)
+return new Rectangle( );
+else
+return nullptr;
+}
+
+int main ( ) {
+cout << "Student Name : TANAYA SANDIP CHAUDHARI" << endl;
+cout << " Student URN No. : E26B00S3149" << endl;
+
+int type;
+//Create two shape objects
+for (int i = 1; i<= 2; i++)  {
+
+cout << "Enter shape type (1 for Circle, 2 for Rectangle): " ;
+cin >> type;
+
+Shape * shape = createShape(type);
+
+if (shape != nullptr) {
+shape ->draw( );
+delete shape ;
+}
+else {
+cout << "Invalid shape type. " << endl;
+}
+}
+
+return 0;
+}
