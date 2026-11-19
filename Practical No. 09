@@ -1,0 +1,100 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+//Generic Stack Class
+template <class T>
+class GenericStack
+{
+private :
+stack<T>  s;
+
+public :
+void push(const T& value)
+{
+s.push(value);
+}
+bool pop(T& value)
+{
+if(s.empty())
+return false;
+
+value = s.top( ) ;
+s.pop( );
+return true;
+}
+bool peek(T& value) const
+{
+if (s.empty())
+
+return false;
+value = s.top( );
+return true;
+}
+
+bool isEmpty( ) const
+{
+return s.empty( );
+}
+};
+
+int main( )  {
+cout << "Student Name: TANAYA SANDIP CHAUDHARI. " << endl;
+cout << "Student URN No. : E26B00S3149" << endl;
+cout<<endl;
+
+int i;
+float f;
+string str;
+//Integer stack
+cout << "Interger Stack: " << endl;
+
+GenericStack<int> intStack;
+intStack.push(10);
+intStack.push(20);
+
+if (intStack.peek(i))
+cout << "Top element : " << i << endl;
+
+if(intStack.pop(i))
+cout << "Popped element : " << i<< endl;
+
+if(intStack.pop(i))
+cout << "Popped element : "<< i << endl;
+
+if(!intStack.pop(i))
+cout << "Cannot pop: Stack is empty. " << endl;
+
+cout << "Is empty? "
+<< (intStack.isEmpty( )  ?  "Yes"   : "No")  << endl;
+
+//Float Stack
+cout << "\nFloat Stack: " << endl;
+
+
+GenericStack<float> floatStack;
+floatStack.push(1.5f);
+floatStack.push(2.5f);
+
+if (floatStack.peek(f))
+cout << "Top element : " << f << endl;
+
+if (floatStack.pop(f))
+cout << "Popped element : " << f <<endl;
+
+//String Stack
+cout << "\nString Stack : " << endl;
+
+GenericStack<string> stringStack;
+stringStack.push("Hello");
+stringStack.push("Templates");
+
+if (stringStack.peek(str))
+cout << "Top element : " << str << endl;
+
+if (stringStack.pop(str))
+cout << "Popped element : " << str << endl;
+
+return 0;
+}
