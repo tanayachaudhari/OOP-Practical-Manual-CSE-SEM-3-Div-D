@@ -1,0 +1,174 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Book{
+public:
+    int id;
+    string title, author;
+    bool available;
+
+    Book(int i, string t, string a, bool av = true)
+        : id(i), title(t), author(a), available(av) {}
+};
+
+class Library{
+private:
+    vector<Book> books;
+
+    int findBook(int id) const {
+        for (int i = 0; i < (int)books.size(); i++)
+            if (books[i].id == id) return i;
+        return -1;
+    }
+
+
+public:
+    void addBook(const Book& book){
+        if (findBook(book.id) != -1) {
+            cout << "Book ID already exists.\n";
+            return;
+        }
+        books.push_back(book);
+        cout << "Book added successfully.\n";
+    }
+
+    void listBooks() const {
+        if (books.empty()) {
+            cout << "No books available.\n";
+            return;
+        }
+        for (const Book& b : books){
+            cout << "ID: " << b.id << ", Title: " << b.title
+                 << ", Author: " << b.author
+                 << ", Status: " << (b.available ? "Available" : "Issued")
+                 << endl;
+        }
+    }
+
+    void searchBook(int id) const {
+        int index = findBook(id);
+        if (index == -1) cout << "Book not found.\n";
+        else {
+            const Book& b = books[index];
+            cout << b.id << " - " << b.title << " by " << b.author << endl;
+        }
+    }
+
+    void issueBook(int id) {
+        int index = findBook(id);
+        if (index == -1) cout << "Book not found.\n";
+        else if (!books[index].available) cout << "Book is already issued.\n";
+        else {
+            books[index].available = false;
+            cout << "Book issued successfully.\n";
+        }
+    }
+
+    void returnBook(int id) {
+        int index = findBook(id);
+    
+    if (index == -1) cout << "Book not found.\n";
+        else if (books[index].available) cout << "Book was not issued.\n";
+        else {
+            books[index].available = true;
+            cout << "Book returned successfully.\n";
+        }
+    }
+
+    void saveToFile() const {
+        ofstream out("books.txt");
+        if (!out) {
+            cout << "Unable to save file.\n";
+            return;
+        }
+        for (const Book& b : books)
+            out << b.id << '\n' << b.title << '\n' << b.author
+                << '\n' << b.available << '\n';
+        cout << "Book records saved.\n";
+    }
+
+    void loadFromFile() {
+        ifstream in("books.txt");
+        if (!in) return;
+        books.clear();
+        int id, available;
+        string title, author;
+        while (in >> id) {
+            in.ignore();
+            if (!getline(in, title) || !getline(in, author) || !(in >> available))
+                break;
+            in.ignore();
+            books.emplace_back(id, title, author, available != 0);
+        }
+    }
+};
+
+int main() {
+    cout << "Student Name: TANAYA SANDIP CHAUDHARI." << endl;
+    cout<< " Student URN No. : E26B00S3149" << endl;
+
+    Library library;
+    library.loadFromFile();
+
+    int choice, id;
+  
+
+string title, author;
+
+    do {
+        cout << "\n--- LIBRARY MANAGEMENT SYSTEM ---\n";
+        cout << "1. Add Book\n2. List Books\n3. Search Book\n";
+        cout << "4. Issue Book\n5. Return Book\n6. Save and Exit\n";
+        cout << "Enter choice: ";
+        if (!(cin >> choice)){
+            cout << "Invalid input.\n";
+            break;
+        }
+
+        switch (choice){
+        case 1:
+            cout << "Enter book ID: ";
+            cin >> id;
+            cin.ignore();
+            cout << "Enter title: ";
+            getline(cin, title);
+            cout << "Enter author: ";
+            getline(cin, author);
+            library.addBook(Book(id, title, author));
+            break;
+        case 2:
+            library.listBooks();
+            break;
+        case 3:
+            cout << "Enter book ID: ";
+            cin >> id;
+            library.searchBook(id);
+            break;
+        case 4:
+            cout << "Enter book ID: ";
+            cin >> id;
+            library.issueBook(id);
+            break;
+        case 5:
+            cout << "Enter book ID: ";
+            cin >> id;
+            library.returnBook(id);
+         
+
+   break;
+        case 6:
+            
+
+library.saveToFile();
+            cout << "Exiting program.\n";
+            break;
+        default:
+            cout << "Invalid choice.\n";
+        }
+    } while (choice != 6);
+
+    return 0;
+}
