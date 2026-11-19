@@ -1,2 +1,1 @@
-# 1st-Project
-This is my first GIT repository.
+This is my OOP Practical answers.
