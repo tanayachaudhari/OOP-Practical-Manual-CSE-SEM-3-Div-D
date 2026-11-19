@@ -1,0 +1,101 @@
+#include <iostream>
+#include <exception>
+using namespace std;
+
+//Custom Exception 1
+class InvalidAmount : public exception {
+public :
+const char* what( ) const noexcept override {
+return  " Invalid amount! Amount must be greater than zero. ";
+}
+};
+
+//Custom Exception 2
+class InsufficientFunds : public exception {
+public :
+
+const char * what ( ) const noexcept override {
+return " Insufficient funds! Withdrawal exceeds the balance. " ;
+}
+};
+//BankAccount class
+class BankAccount {
+private :
+double balance ;
+
+
+public :
+BankAccount(double b)  :  balance (b)  { }
+void withdraw(double amount)  { 
+if (amount  <= 0)
+throw InvalidAmount( );
+
+if (amount  > balance)
+throw InsufficientFunds( );
+balance  -= amount;
+
+cout << " Withdrawal successful :  Rs. "
+<< amount << endl;
+}
+
+void showBalance( ) const {
+cout << "Rs. " << balance << endl;
+}
+};
+
+int main ( ) {
+cout << " Student Name : TANAYA SANDIP CHAUDHARI. " << endl;
+cout << " Student URN No. : E26B00S3149" << endl;
+cout << endl;
+
+BankAccount account(5000);
+cout << " Initial balance : " ;
+account.showBalance( );
+
+//Successful transaction
+try {
+account.withdraw(1000);
+}
+catch (const InvalidAmount& e) {
+cout <<  e.what( ) <<  endl;
+}
+catch (const InsufficientFunds& e) {
+cout << e.what( ) << endl;
+}
+
+cout << " Balance after transaction : " ;
+account.showBalance( );
+
+//Invalid amount transaction
+try {
+
+account.withdraw(0);
+}
+catch (const InvalidAmount& e) {
+
+cout << e.what( ) << endl;
+}
+catch (const InsufficientFunds& e) {
+cout << e.what( ) << endl;
+}
+
+cout << " Balance after transaction : ";
+account.showBalance( );
+
+//Insufficient funds transaction
+try {
+account.withdraw(6000);
+}
+catch (const InvalidAmount& e) {
+
+cout << e.what( ) << endl;
+}
+catch (const InsufficientFunds& e) {
+cout << e.what ( ) << endl;
+}
+
+cout << " Balance after transaction : " ;
+account.showBalance( );
+
+return 0;
+}
