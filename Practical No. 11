@@ -1,0 +1,192 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+// Student record
+struct Student {
+int id;
+string name;
+double marks;
+};
+
+//Function to validate CSV records
+bool parseStudent(const string& line, Student& s) {
+string idText, name, marksText;
+stringstream row(line);
+
+if  (!getline(row, idText, ',')  ||
+!getline(row, name, ',')  ||
+!getline(row, marksText)  ||
+name.empty( )  || marksText.find( ',')  != string::npos)
+return false;
+
+stringstream idInput(idText), marksInput(marksText);
+char extra;
+
+
+if  (!  ( idInput >> s.id)  || (idInput >> extra) )
+return false;
+
+if  (!  (marksInput  >> s.marks )  || (marksInput >> extra))
+return false;
+
+s.name = name;
+return true;
+}
+
+int main ( ) {
+cout << "Student Name : TANAYA SANDIP CHAUDHARI. " << endl;
+cout << "Student URN No. : E26B00S3149" << endl;
+
+Student students[3];
+
+//Accept student details
+cout << " Enter details of 3 students (name should not contain commas): \n";
+
+for (int i = 0; i < 3; i++) {
+cout << "\nStudent " << i + 1 << "\n";
+
+cout << "Enter ID: " ;
+cin >> students[i].id;
+
+cout << "Enter Name : " ;
+cin >> ws;
+getline(cin, students[i].name);
+
+cout << "Enter Marks : ";
+cin >> students[i].marks;
+}
+
+//Write records into CSV file
+
+fstream csv("students.csv" , ios::out  | ios::trunc);
+
+if (! csv.is_open()) {
+cout << "Unable to open students.csv for writing.\n";
+return 1;
+}
+
+csv <<"ID,Name,Marks\n";
+for (int i = 0; i < 3; i++) {
+
+
+csv << students[i].id << ','
+<< students[i].name << ','
+<< fixed << setprecision(2)
+<< students[i].marks << '\n';
+}
+
+csv.flush( );
+
+if (!csv) {
+cout << "Writing to students.csv failed.\n";
+return 1;
+}
+
+csv.close( ) ;
+
+cout << "\nStudent records written successfully to students.csv.\n";
+
+//Read records from CSV file
+csv.open("students.csv", ios::in);
+
+if (! csv.is_open()) {
+cout << "Unable to open students.csv for reading.\n";
+return 1;
+}
+
+string line;
+getline(csv, line); //skip heading
+
+cout << "\nStudent Records:\n";
+cout << left << setw(10)  << "ID"
+<< setw(22)  << "Name"  << "Marks\n";
+cout << " ----------------------------------------------------------------------\n";
+
+int validRecords = 0;
+
+while(getline(csv, line)) {
+Student s;
+
+if (parseStudent(line, s)) {
+cout << left << setw(10) << s.id
+<< setw(22) << s.name
+<< fixed << setprecision(2)
+<< s.marks << '\n';
+
+validRecords++;
+} else {
+
+cout << "Skipping malformed record : "
+<< line << '\n';
+}
+}
+
+if (validRecords == 0)
+cout << "No valid student records found.\n";
+
+csv.close( );
+
+//Demonstration of file- position functions
+fstream positionFile("position_demo.txt",
+                        ios::in | ios::out |  ios::trunc) ;
+
+if (!positionFile.is_open( )) {
+cout << "Unable to open position_demo.txt.\n";
+return 1;
+}
+
+positionFile << "ABCDEFGHIJ";
+positionFile.flush( );
+
+cout << "\nFile Position Demonstration : \n";
+
+// tellp( ) gives current write position
+cout << "tellp( ) after writing : "
+<< positionFile.tellp( ) << '\n';
+
+// seekg( 0 changes read position
+positionFile.seekg(2, ios::beg);
+
+cout << "tellg( ) after seekg(2):  "
+<< positionFile.tellg( ) << '\n';
+char ch;
+positionFile.get(ch);
+
+
+cout << "Character read : " << ch <<  '\n';
+
+cout << "tellg( ) after reading one character : "
+<< positionFile.tellg( ) <<  '\n';
+
+
+//seekp( ) changes write position
+positionFile.seekp(4, ios::beg);
+
+cout << "tellp( ) after seekp(4) : "
+  << positionFile.tellp( ) <<  '\n';
+
+positionFile.put('X');
+positionFile.flush( );
+
+cout << "tellp( ) after writing X: "
+<< positionFile.tellp( ) <<  '\n';
+
+positionFile.close( );
+
+//Display updated file content
+ifstream checkFile("position_demo.txt");
+string content;
+
+getline(checkFile, content);
+
+cout << "Updated position_demo.txt : "
+<< content << '\n';
+
+checkFile.close( );
+
+return 0;
+}
