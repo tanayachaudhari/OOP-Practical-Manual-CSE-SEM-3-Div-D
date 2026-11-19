@@ -1,0 +1,49 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main( ) {
+cout<< "Student Name : TANAYA SANDIP CHAUDHARI " << endl;
+cout<< "Student URN No. : E26B00S3149 "<< endl;
+
+const int DecimalPlaces =  2;
+
+double firstNumber, secondNumber;
+bool firstIsGreater, bothArePositive;
+
+cout << "Enter the first number : " ;
+cin >> firstNumber;
+
+cout << "Enter the second number : " ;
+cin>> secondNumber;
+
+cout << fixed << setprecision (DecimalPlaces);
+
+cout << "\n ---- Arithmetic Operations ----\n";
+
+cout << "Addition : "  << firstNumber + secondNumber << '\n';
+
+
+
+cout << " Subtraction : " << firstNumber -  secondNumber << '\n';
+cout<< "Multiplication : " << firstNumber * secondNumber << '\n';
+
+if ( secondNumber  !=  0) {
+cout << "Division  : " << firstNumber  /  secondNumber << '\n';
+} else {
+cout << "Division  : Not Possible (division by zero) \n";
+}
+
+firstIsGreater = (firstNumber  >  secondNumber);
+
+bothArePositive = (firstNumber  >  0 &&  secondNumber  >  0);
+
+cout << "\n ----  Relational and Logical Operations  ----\n" ;
+
+cout << " Is the first number greater than the second ? " << (firstIsGreater  ?  "YES"  :   "NO") << '\n';
+
+cout << "Are both numbers positive ? " << (bothArePositive  ?  " YES"   :  "NO")  << '\n';
+
+return 0;
+}
+
