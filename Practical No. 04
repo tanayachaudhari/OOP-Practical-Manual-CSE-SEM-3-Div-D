@@ -1,0 +1,50 @@
+#include <iostream>
+#include <memory>
+using namespace std;
+
+int main( )
+{
+cout << "Student Name : TANAYA SANDIP CHAUDHARI" << endl;
+cout  << "Student URN No. : E26B00S3149" << endl;
+
+// Unique pointer for an object
+unique_ptr <int>  p1 = make_unique <int>(10);
+
+cout << "Unique pointer object : " << *p1 <<  endl;
+
+// Unique pointer for an array
+unique_ptr <int[]>   arr  =  make_unique<int[]> (3);
+
+for (int i = 0; i < 3; i++)
+arr[i] = (i + 1) * 10;
+
+cout << "Unique pointer array : ";
+
+
+for(int i = 0; i < 3; i++)
+cout << arr[i] << " ";
+cout << endl;
+
+// Shared pointer 
+shared_ptr<int>  sp1  =  make_shared<int>(50);
+shared_ptr<int> sp2 = sp1;
+
+cout << "Shared pointer value : " << *sp1 << endl;
+cout << "Number of owners : " << sp1.use_count( ) << endl;
+
+sp2.reset( );
+cout << "Owners after reset : " << sp1.use_count( ) << endl;
+
+//Repeat memory allocation 10000 times
+for (int i = 0; i < 10000; i++)
+{
+auto p = make_unique <int>(i);
+
+auto s1 = make_shared <int>(i);
+auto s2 = s1;
+}
+cout << "10000 iterations completed. " << endl;
+cout << "Memory released automatically. " << endl;
+
+return 0;
+}
